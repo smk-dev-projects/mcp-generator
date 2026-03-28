@@ -1,13 +1,16 @@
-# mcp-generator
+# MCP Generator
 
 <div align="center">
 
-![npm version](https://img.shields.io/npm/v/mcp-generator)
-![license](https://img.shields.io/github/license/smk-dev-projects/mcp-generator)
-![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)
+![npm version](https://img.shields.io/npm/v/mcp-generator?style=for-the-badge&logo=npm)
+![license](https://img.shields.io/github/license/smk-dev-projects/mcp-generator?style=for-the-badge)
+![Node.js](https://img.shields.io/badge/Node.js-%3E%3D18.0.0-brightgreen?style=for-the-badge&logo=node.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?style=for-the-badge&logo=typescript)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/smk-dev-projects/mcp-generator/ci.yml?style=for-the-badge&logo=github)
 
 **Generate production-ready Model Context Protocol (MCP) servers in seconds**
+
+[Installation](#-installation) • [Usage](#-usage) • [Templates](#-templates) • [Contributing](#-contributing)
 
 </div>
 
@@ -26,19 +29,34 @@ The Model Context Protocol is an open standard that enables AI applications to i
 - **Provide structured data** to AI models
 - **Build reusable integrations** for multiple AI clients
 
+### Why MCP Generator?
+
+- ⚡ **Save Time** - Go from idea to working MCP server in under 60 seconds
+- 🎯 **Best Practices** - Built-in patterns for error handling, logging, and structure
+- 🔧 **Customizable** - Choose features and templates that fit your needs
+- 📚 **Well Documented** - Generated code includes helpful comments and examples
+
+---
+
 ## ✨ Features
 
-- 🎯 **Interactive CLI Wizard** - Guided setup with intuitive prompts
-- 📦 **Multiple Templates** - Choose from Basic Server or Server with Tools
-- 🔧 **Customizable Features** - Add logging, validation, TypeScript support
-- 🚀 **Production Ready** - Includes proper error handling and structure
-- 📝 **Well Documented** - Generated code includes helpful comments
-- ✅ **Tested** - Unit tests included for the generator logic
+| Feature | Description |
+|---------|-------------|
+| 🎯 **Interactive CLI** | Beautiful guided setup with intuitive prompts |
+| 📦 **Multiple Templates** | Choose from Basic Server or Server with Tools |
+| 🔧 **Customizable** | Add logging, validation, TypeScript support |
+| 🚀 **Production Ready** | Proper error handling and project structure |
+| 📝 **Well Documented** | Generated code includes helpful comments |
+| ✅ **Tested** | Unit tests included for generator logic |
+
+---
 
 ## 📋 Prerequisites
 
-- Node.js >= 18.0.0
-- npm or yarn
+- **Node.js** >= 18.0.0
+- **npm** or **yarn**
+
+---
 
 ## 🛠️ Installation
 
@@ -64,25 +82,21 @@ npm run build
 npm link
 ```
 
+---
+
 ## 💡 Usage
 
-### Interactive Mode
-
-Run the wizard to create a new MCP server with guided prompts:
+### Quick Start
 
 ```bash
+# Interactive mode (recommended for first-time users)
 mcp-generator create my-mcp-server
-```
 
-Or use the shorthand:
-
-```bash
+# Or use shorthand
 mcp-gen create my-mcp-server
 ```
 
-### Non-Interactive Mode
-
-Use flags to skip prompts:
+### Non-Interactive Mode (CI/CD)
 
 ```bash
 # Create a basic server
@@ -97,51 +111,35 @@ mcp-generator create my-server --force
 
 ### Available Commands
 
-#### `create [project-name]`
+| Command | Description |
+|---------|-------------|
+| `create [project-name]` | Create a new MCP server project |
+| `list-templates` | Display all available templates |
+| `--version` | Show the current version |
+| `--help` | Show help information |
 
-Create a new MCP server project.
-
-**Options:**
-- `-t, --template <type>` - Template type: `basic` or `tools` (default: `basic`)
-- `-s, --server-type <type>` - Server transport: `stdio` or `http` (default: `stdio`)
-- `-f, --features <features>` - Comma-separated features: `logging`, `validation`, `typescript`
-- `--force` - Overwrite existing directory
-
-#### `list-templates`
-
-Display all available templates with descriptions:
+#### Create Command Options
 
 ```bash
-mcp-generator list-templates
+-t, --template <type>       Template type: basic or tools (default: basic)
+-s, --server-type <type>    Server transport: stdio or http (default: stdio)
+-f, --features <features>   Comma-separated: logging,validation,typescript
+--force                     Overwrite existing directory
 ```
 
-#### `--version`
-
-Show the current version:
-
-```bash
-mcp-generator --version
-```
-
-#### `--help`
-
-Show help information:
-
-```bash
-mcp-generator --help
-```
+---
 
 ## 📁 Project Structure
 
-When you generate a new MCP server, you'll get a structure like this:
+When you generate a new MCP server, you'll get:
 
 ```
 my-mcp-server/
 ├── src/
-│   ├── index.ts          # Main server entry point
-│   ├── tools/            # Tool implementations (if using tools template)
+│   ├── index.ts              # Main server entry point
+│   ├── tools/                # Tool implementations (tools template)
 │   │   └── example-tool.ts
-│   └── utils/            # Utilities (if logging feature enabled)
+│   └── utils/                # Utilities (if logging enabled)
 │       └── logger.ts
 ├── package.json
 ├── tsconfig.json
@@ -149,37 +147,47 @@ my-mcp-server/
 └── README.md
 ```
 
+---
+
 ## 🎨 Templates
 
 ### Basic Server
 
-A minimal MCP server with stdio transport. Perfect for:
+A minimal MCP server with stdio transport.
+
+**Perfect for:**
 - Learning MCP fundamentals
 - Simple resource providers
 - Custom integrations
 
 **Includes:**
-- Basic server setup with stdio transport
-- Capability registration
-- Example tool (commented out)
-- TypeScript configuration
+- ✅ Basic server setup with stdio transport
+- ✅ Capability registration
+- ✅ Example tool (commented out)
+- ✅ TypeScript configuration
 
 ### Server with Tools
 
-A comprehensive template with pre-configured tools. Perfect for:
+A comprehensive template with pre-configured tools.
+
+**Perfect for:**
 - Production-ready tool servers
 - Demonstrating MCP patterns
 - Quick prototyping
 
 **Includes:**
-- Multiple example tools (calculate, echo, text processing)
-- Structured logging utility
-- Modular tool organization
-- Comprehensive README with examples
+- ✅ Multiple example tools (calculate, echo, text processing)
+- ✅ Structured logging utility
+- ✅ Modular tool organization
+- ✅ Comprehensive README with examples
+
+---
 
 ## 🔌 MCP Configuration
 
 After generating your server, configure it in your MCP client:
+
+### Standard Configuration
 
 ```json
 {
@@ -192,7 +200,7 @@ After generating your server, configure it in your MCP client:
 }
 ```
 
-For Claude Desktop:
+### Claude Desktop Configuration
 
 ```json
 {
@@ -205,6 +213,8 @@ For Claude Desktop:
   }
 }
 ```
+
+---
 
 ## 🧪 Development
 
@@ -235,15 +245,17 @@ npm run format
 npm run dev  # Run with ts-node
 ```
 
+---
+
 ## 🤝 Contributing
 
 Contributions are welcome! Here's how you can help:
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'feat: add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
 
 ### Development Guidelines
 
@@ -252,9 +264,15 @@ Contributions are welcome! Here's how you can help:
 - Update documentation as needed
 - Keep commits atomic and descriptive
 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
+
+---
+
 ## 📄 License
 
 MIT License - see [LICENSE](LICENSE) file for details.
+
+---
 
 ## 🙏 Acknowledgments
 
@@ -263,11 +281,17 @@ MIT License - see [LICENSE](LICENSE) file for details.
 - [@clack/prompts](https://github.com/natemoo-re/clack) - Beautiful CLI prompts
 - [Commander.js](https://github.com/tj/commander.js) - CLI framework
 
+---
+
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/smk-dev-projects/mcp-generator/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/smk-dev-projects/mcp-generator/discussions)
-- **Documentation**: [MCP Specification](https://modelcontextprotocol.io/docs)
+| Resource | Link |
+|----------|------|
+|  Issues | [GitHub Issues](https://github.com/smk-dev-projects/mcp-generator/issues) |
+| 💬 Discussions | [GitHub Discussions](https://github.com/smk-dev-projects/mcp-generator/discussions) |
+| 📚 Documentation | [MCP Specification](https://modelcontextprotocol.io/docs) |
+
+---
 
 ## 🌟 Show Your Support
 
