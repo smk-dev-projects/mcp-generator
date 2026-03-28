@@ -1,7 +1,7 @@
 {
   "name": "mcp-generator",
   "version": "1.0.0",
-  "description": "CLI tool to generate Model Context Protocol (MCP) server boilerplate",
+  "description": "CLI tool to generate Model Context Protocol (MCP) server boilerplate with interactive wizard",
   "main": "dist/index.js",
   "bin": {
     "mcp-generator": "./dist/index.js",
