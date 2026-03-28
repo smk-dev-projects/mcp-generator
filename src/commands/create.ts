@@ -15,13 +15,6 @@ interface CreateOptions {
 }
 
 /**
- * Check if running in non-interactive mode (CI or with all flags provided)
- */
-function isNonInteractive(options: CreateOptions, projectName?: string): boolean {
-  return !!(projectName && options.template && options.serverType && options.features !== undefined);
-}
-
-/**
  * Create command - Interactive wizard to generate a new MCP server
  */
 export function createCommand(program: Command) {
