@@ -15,6 +15,13 @@ interface CreateOptions {
 }
 
 /**
+ * Check if running in non-interactive mode (CI or with all flags provided)
+ */
+function isNonInteractive(options: CreateOptions, projectName?: string): boolean {
+  return !!(projectName && options.template && options.serverType && options.features !== undefined);
+}
+
+/**
  * Create command - Interactive wizard to generate a new MCP server
  */
 export function createCommand(program: Command) {
@@ -23,7 +30,7 @@ export function createCommand(program: Command) {
     .description('Create a new MCP server project')
     .option('-t, --template <type>', 'Template type (basic or tools)', 'basic')
     .option('-s, --server-type <type>', 'Server type (stdio or http)', 'stdio')
-    .option('-f, --features <features>', 'Comma-separated list of features', '')
+    .option('-f, --features <features>', 'Comma-separated features: logging,validation,typescript', '')
     .option('--force', 'Overwrite existing directory', false)
     .action(async (projectName: string | undefined, options: CreateOptions) => {
       await runCreateWizard(projectName, options);
@@ -40,9 +47,17 @@ async function runCreateWizard(projectName: string | undefined, options: CreateO
     name: '',
     template: (options.template || 'basic') as TemplateType,
     serverType: (options.serverType || 'stdio') as 'stdio' | 'http',
-    features: options.features ? options.features.split(',').map(f => f.trim() as Feature) : [],
+    features: [],
     force: options.force || false,
   };
+
+  // Parse features from command line if provided
+  if (options.features && options.features.trim() !== '') {
+    config.features = options.features
+      .split(',')
+      .map((f: string) => f.trim() as Feature)
+      .filter((f: string) => f.length > 0);
+  }
 
   // Get project name if not provided
   if (!projectName) {
@@ -124,7 +139,8 @@ async function runCreateWizard(projectName: string | undefined, options: CreateO
   }
 
   // Ask about additional features (only if not specified via flag)
-  if (!options.features || options.features.trim() === '') {
+  const hasFeaturesFromCli = options.features && options.features.trim() !== '';
+  if (!hasFeaturesFromCli) {
     const featuresSelect = await clack.multiselect({
       message: 'Select additional features:',
       options: [
@@ -153,13 +169,8 @@ async function runCreateWizard(projectName: string | undefined, options: CreateO
     }
 
     config.features = Array.isArray(featuresSelect) ? (featuresSelect as Feature[]) : [];
-  } else {
-    // Parse features from command line
-    config.features = options.features
-      .split(',')
-      .map((f: string) => f.trim())
-      .filter((f: string) => f.length > 0);
   }
+  // If features were provided via CLI, they're already set above
 
   // Check if directory exists
   const targetDir = path.join(process.cwd(), config.name);
