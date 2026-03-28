@@ -5,7 +5,14 @@ import ora from 'ora';
 import path from 'path';
 import fs from 'fs';
 import { generateServer } from '../utils/generator.js';
-import { TemplateType, ServerConfig } from '../types.js';
+import { TemplateType, ServerConfig, Feature } from '../types.js';
+
+interface CreateOptions {
+  template?: string;
+  serverType?: string;
+  features?: string;
+  force?: boolean;
+}
 
 /**
  * Create command - Interactive wizard to generate a new MCP server
@@ -18,7 +25,7 @@ export function createCommand(program: Command) {
     .option('-s, --server-type <type>', 'Server type (stdio or http)', 'stdio')
     .option('-f, --features <features>', 'Comma-separated list of features', '')
     .option('--force', 'Overwrite existing directory', false)
-    .action(async (projectName: string | undefined, options: any) => {
+    .action(async (projectName: string | undefined, options: CreateOptions) => {
       await runCreateWizard(projectName, options);
     });
 }
@@ -26,15 +33,15 @@ export function createCommand(program: Command) {
 /**
  * Run the interactive creation wizard
  */
-async function runCreateWizard(projectName: string | undefined, options: any) {
+async function runCreateWizard(projectName: string | undefined, options: CreateOptions) {
   clack.intro(chalk.green('🚀 MCP Server Generator'));
 
   const config: ServerConfig = {
     name: '',
-    template: options.template as TemplateType,
-    serverType: options.serverType as 'stdio' | 'http',
-    features: options.features ? options.features.split(',') : [],
-    force: options.force,
+    template: (options.template || 'basic') as TemplateType,
+    serverType: (options.serverType || 'stdio') as 'stdio' | 'http',
+    features: options.features ? options.features.split(',').map(f => f.trim() as Feature) : [],
+    force: options.force || false,
   };
 
   // Get project name if not provided
@@ -42,7 +49,7 @@ async function runCreateWizard(projectName: string | undefined, options: any) {
     const nameInput = await clack.text({
       message: 'What is your MCP server name?',
       placeholder: 'my-mcp-server',
-      validate: (value) => {
+      validate: (value): string | void => {
         if (!value || value.length === 0) {
           return 'Project name is required';
         }
@@ -63,7 +70,7 @@ async function runCreateWizard(projectName: string | undefined, options: any) {
   }
 
   // Get template type if not provided via flag
-  if (!options.template || options.template === 'basic') {
+  if (!options.template) {
     const templateSelect = await clack.select({
       message: 'Choose a template:',
       options: [
@@ -90,7 +97,7 @@ async function runCreateWizard(projectName: string | undefined, options: any) {
   }
 
   // Get server type if not provided via flag
-  if (!options.serverType || options.serverType === 'stdio') {
+  if (!options.serverType) {
     const serverTypeSelect = await clack.select({
       message: 'Choose server transport type:',
       options: [
@@ -116,8 +123,8 @@ async function runCreateWizard(projectName: string | undefined, options: any) {
     config.serverType = serverTypeSelect as 'stdio' | 'http';
   }
 
-  // Ask about additional features
-  if (!options.features || options.features === '') {
+  // Ask about additional features (only if not specified via flag)
+  if (!options.features || options.features.trim() === '') {
     const featuresSelect = await clack.multiselect({
       message: 'Select additional features:',
       options: [
@@ -145,7 +152,13 @@ async function runCreateWizard(projectName: string | undefined, options: any) {
       process.exit(0);
     }
 
-    config.features = Array.isArray(featuresSelect) ? featuresSelect : [];
+    config.features = Array.isArray(featuresSelect) ? (featuresSelect as Feature[]) : [];
+  } else {
+    // Parse features from command line
+    config.features = options.features
+      .split(',')
+      .map((f: string) => f.trim())
+      .filter((f: string) => f.length > 0);
   }
 
   // Check if directory exists

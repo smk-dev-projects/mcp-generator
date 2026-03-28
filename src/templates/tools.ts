@@ -1,12 +1,12 @@
-import { TemplateDefinition } from '../../types.js';
+import { TemplateDefinition } from '../types.js';
 
 /**
  * MCP Server with Tools Template
- * 
+ *
  * A comprehensive MCP server template that includes pre-configured tools.
  * This template demonstrates how to implement and register custom tools
  * that can be invoked by MCP clients (AI applications).
- * 
+ *
  * Key MCP patterns:
  * - Tool registration with Zod schema validation
  * - Tool implementation with proper error handling

@@ -23,7 +23,7 @@ function listTemplates() {
 
   console.log('\n');
 
-  for (const [key, template] of Object.entries(TEMPLATES)) {
+  for (const [, template] of Object.entries(TEMPLATES)) {
     console.log(chalk.bold.cyan(`  ${template.name}`));
     console.log(chalk.gray(`    ${template.description}`));
     console.log(chalk.gray(`    Type: ${template.serverType}`));

@@ -4,7 +4,7 @@ import { toolsTemplate } from './tools.js';
 
 /**
  * Registry of all available MCP server templates
- * 
+ *
  * Each template provides a complete boilerplate for a specific type of MCP server.
  * Templates include all necessary files: package.json, TypeScript config, source files, etc.
  */
@@ -22,7 +22,7 @@ export function getTemplateNames(): string[] {
 
 /**
  * Get a template by name
- * 
+ *
  * @param name - Template name
  * @returns Template definition or undefined if not found
  */

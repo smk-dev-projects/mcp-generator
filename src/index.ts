@@ -2,10 +2,10 @@
 
 /**
  * MCP Generator CLI - Main Entry Point
- * 
+ *
  * This CLI tool generates Model Context Protocol (MCP) server boilerplate.
  * MCP is a protocol for AI applications to interact with external tools and data sources.
- * 
+ *
  * @see https://modelcontextprotocol.io/
  */
 

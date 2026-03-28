@@ -5,13 +5,13 @@ import { TEMPLATES } from '../templates/index.js';
 
 /**
  * Generate an MCP server based on the provided configuration
- * 
+ *
  * @param config - Server configuration from user input
  * @param targetDir - Target directory for the generated files
  */
 export async function generateServer(config: ServerConfig, targetDir: string): Promise<void> {
   const template = getTemplate(config.template);
-  
+
   // Create render context with project-specific values
   const context: RenderContext = {
     projectName: config.name,

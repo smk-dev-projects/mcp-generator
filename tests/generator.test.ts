@@ -1,5 +1,5 @@
-import { generateServer } from '../src/utils/generator.js';
-import { ServerConfig } from '../src/types.js';
+import { generateServer } from '../dist/utils/generator.js';
+import { ServerConfig } from '../dist/types.js';
 
 /**
  * Unit tests for the MCP server generator
@@ -45,9 +45,7 @@ describe('Generator', () => {
 
       const targetDir = '/tmp/test-mcp-server-invalid';
 
-      await expect(generateServer(config, targetDir)).rejects.toThrow(
-        'Unknown template: invalid'
-      );
+      await expect(generateServer(config, targetDir)).rejects.toThrow('Unknown template: invalid');
     });
 
     it('should create directory structure for tools template', async () => {

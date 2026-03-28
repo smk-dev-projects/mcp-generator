@@ -1,11 +1,11 @@
-import { TemplateDefinition } from '../../types.js';
+import { TemplateDefinition } from '../types.js';
 
 /**
  * Basic MCP Server Template
- * 
+ *
  * A minimal MCP server implementation using stdio transport.
  * This template provides the foundation for building MCP-compliant servers.
- * 
+ *
  * Key MCP patterns:
  * - Server initialization with capabilities
  * - Request/Response handling via stdio
